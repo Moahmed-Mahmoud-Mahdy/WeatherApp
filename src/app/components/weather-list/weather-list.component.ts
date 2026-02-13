@@ -1,72 +1,78 @@
-import { fileURLToPath } from 'node:url';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { routes } from './../../app.routes';
-import { Component } from '@angular/core';
-import { query } from 'express';
 import { FormsModule } from '@angular/forms';
+import { WeatherService } from '../../services/weather.service';
+import { CountriesService } from '../../services/countries.service';
+import { importProvidersFrom } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-weather-list',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './weather-list.component.html',
-  styleUrl: './weather-list.component.css'
+  styleUrls: ['./weather-list.component.css'],
+  providers: [
+    WeatherService,
+    CountriesService,
+    // importProvidersFrom(provideHttpClient())
+  ]
 })
-export class WeatherListComponent {
+export class WeatherListComponent implements OnInit {
   searchText: string = '';
-
-  weatherList : any[] = [
-    { city: "New York", temperature: 18 },
-    { city: "Cairo", temperature: 34 },
-    { city: "Tokyo", temperature: 25}
-  ];  
-
+  weatherList: any[] = [];
   filteredWeatherList: any[] = [];
   SortBy: string = '';
   SortByAscending: boolean = false;
 
+  constructor(
+    private router: Router,
+    private weatherService: WeatherService,
+    private countriesService: CountriesService
+  ) {}
 
-  
-  constructor(private router: Router) {
-    this.filteredWeatherList = this.weatherList;
+  ngOnInit(): void {
+    this.countriesService.getAllCountries().subscribe((countries: any) => {
+      countries.forEach((country: any, index: number) => {
+        if (country.latlng?.length === 2 && index < 200) { // أول 50 دولة لتخفيف الحمل
+          const [lat, lon] = country.latlng;
+          const name = country.name.common;
+
+          this.weatherService.getWeather(lat, lon).subscribe({
+            next: (data) => {
+              this.weatherList.push({ city: name, ...data.current_weather });
+              this.filteredWeatherList = [...this.weatherList];
+            },
+            error: (err) => console.error(err)
+          });
+        }
+      });
+    });
   }
- navigateToWeather(temperature: number) 
- {
-      this.router.navigate(['/weather'], {queryParams: {temperature}});
- }
 
-
-filterWeatherList() {
-
-  if (!this.searchText) {
-this.filteredWeatherList = this.weatherList;
-
-}
-else {
-  this.filteredWeatherList = this.weatherList.filter(cityWeather => cityWeather.city.toLowerCase().includes(this.searchText.toLowerCase()));
-}
-
-}
-
-
-SortWeatherList(proparty: string)
-{
-  this.SortBy = proparty;
-  this.SortByAscending = !this.SortByAscending;
-  this.filteredWeatherList.sort((a, b) => { 
-    const avalue = a[proparty];
-    const bvalue = b[proparty];
-
-    if(avalue < bvalue) {
-      return this.SortByAscending ? -1 : 1;
-    }else if(avalue > bvalue) {
-      return this.SortByAscending ? 1 : -1;
-    }else{
-      return 0;
+  filterWeatherList() {
+    if (!this.searchText) {
+      this.filteredWeatherList = [...this.weatherList];
+    } else {
+      this.filteredWeatherList = this.weatherList.filter(item =>
+        item.city.toLowerCase().includes(this.searchText.toLowerCase())
+      );
     }
+  }
 
-  });
-}
+  SortWeatherList(property: string) {
+    this.SortBy = property;
+    this.SortByAscending = !this.SortByAscending;
+    this.filteredWeatherList.sort((a, b) => {
+      const avalue = a[property];
+      const bvalue = b[property];
+      if (avalue < bvalue) return this.SortByAscending ? -1 : 1;
+      if (avalue > bvalue) return this.SortByAscending ? 1 : -1;
+      return 0;
+    });
+  }
 
-
+  navigateToWeather(temperature: number) {
+    this.router.navigate(['/weather'], { queryParams: { temperature } });
+  }
 }
