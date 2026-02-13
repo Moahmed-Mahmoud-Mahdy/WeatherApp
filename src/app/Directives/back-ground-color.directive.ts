@@ -17,7 +17,7 @@ export class BackGroundColorDirective implements OnInit {
     if (this.temperature < 20) {
       this.el.nativeElement.style.backgroundColor = 'lightblue';
     }
-    else if (this.temperature >= 20 && this.temperature <= 25) {
+    else if (this.temperature >= 20 && this.temperature <= 30) {
       this.el.nativeElement.style.backgroundColor = 'lightgreen';
     }
     else {
