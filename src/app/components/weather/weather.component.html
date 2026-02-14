@@ -1,10 +1,16 @@
 <div class="container mt-4">
-    <div class="card mt-5" [appBackGroundColor]="temperature">
-        <div class="card-body">
-            <h2 class="card-title text-white">Weather App</h2>
-            <p class="card-text text-white">Current Temperature: 
-                {{ temperature | temperatureConversion: unit }}°{{ unit }}</p>
+  <div class="card mt-5 glass-card" [appBackGroundColor]="temperature">
+    <div class="card-body">
+      <h2 class="card-title text-white">Weather App</h2>
+      <p class="card-text text-white">
+        Current Temperature: {{ temperature | temperatureConversion: unit }}°{{
+          unit
+        }}
+      </p>
 
-            <button class="btn btn-primary" (click)="toggleUnit()"  >Toggle Unit</button>    
+      <button class="btn btn-primary" (click)="toggleUnit()">
+        Toggle Unit
+      </button>
     </div>
+  </div>
 </div>

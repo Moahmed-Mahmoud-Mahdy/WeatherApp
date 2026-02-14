@@ -1,2 +1,103 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap");
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg-color: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --accent-color: #38bdf8;
+  --fluid-h1: clamp(2rem, 5vw, 3.5rem);
+  --fluid-text-lg: clamp(2.5rem, 10vw, 5rem);
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  background: #0f172a;
+  background-image: 
+    radial-gradient(at 0% 0%, #1e293b 0px, transparent 50%),
+    radial-gradient(at 50% 0%, #1e3a8a 0px, transparent 50%),
+    radial-gradient(at 100% 0%, #0c4a6e 0px, transparent 50%),
+    radial-gradient(at 50% 100%, #172554 0px, transparent 50%),
+    radial-gradient(at 0% 100%, #082f49 0px, transparent 50%),
+    radial-gradient(at 100% 100%, #1e1b4b 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.glass-navbar {
+  background: rgba(15, 23, 42, 0.8) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.2),
+    0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.1);
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  color: var(--text-primary) !important;
+  padding: 12px 20px !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 0.6;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2) !important;
+}

@@ -1,32 +1,41 @@
 <div class="container mt-4">
-    <h2 class="mb-4">Weather List</h2>
+  <h2 class="mb-4">Weather List</h2>
 
-    <div class="row mb-3">
-        <div class="col-md-6 mb-3">
-            <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Country name"
-            [(ngModel)]="searchText"    
-            />
-        </div>
-        <div class="col-md-6 mb-3">
-            <button class="btn btn-primary btn-block" (click)="filterWeatherList()">Filter</button>
-        </div>
+  <div class="row mb-3">
+    <div class="col-md-10 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter Country name"
+        [(ngModel)]="searchText"
+      />
     </div>
+    <div class="col-md-2 mb-3 d-grid">
+      <button class="btn btn-primary" (click)="filterWeatherList()">
+        Filter
+      </button>
+    </div>
+  </div>
 
-    <button class="btn btn-secondary mx-2 my-2" (click)="SortWeatherList('city')">Sort By Countey</button>
-    <button class="btn btn-secondary mx-2 my-2" (click)="SortWeatherList('temperature')">Sort By Temperature</button>
+  <button class="btn btn-secondary mx-2 my-2" (click)="SortWeatherList('city')">
+    Sort By Countey
+  </button>
+  <button
+    class="btn btn-secondary mx-2 my-2"
+    (click)="SortWeatherList('temperature')"
+  >
+    Sort By Temperature
+  </button>
 
-    <ul class="list-group">
-        @for (cityWeather of filteredWeatherList; track cityWeather.id) {
-            <button
-            title="{{cityWeather.city}} - {{cityWeather.temperature}}°C"
-            class="list-group-item list-group-item-action"  
-            (click)="navigateToWeather(cityWeather.temperature)">
-            {{cityWeather.city}} - {{cityWeather.temperature}}°C
-            </button>
-        }
-
-    </ul>
-</div> 
+  <ul class="list-group">
+    @for (cityWeather of filteredWeatherList; track cityWeather.id) {
+      <button
+        title="{{ cityWeather.city }} - {{ cityWeather.temperature }}°C"
+        class="list-group-item list-group-item-action"
+        (click)="navigateToWeather(cityWeather.temperature)"
+      >
+        {{ cityWeather.city }} - {{ cityWeather.temperature }}°C
+      </button>
+    }
+  </ul>
+</div>
